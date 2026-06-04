@@ -1,0 +1,24 @@
+{
+  "best_sum_all": {
+    "iteration": 1,
+    "ppl_sum": 1136.9588355664666,
+    "budgets": [
+      4,
+      8,
+      12
+    ]
+  },
+  "best_sum_partial": {
+    "iteration": 1,
+    "ppl_sum": 757.9725570443111,
+    "budgets": [
+      4,
+      8
+    ]
+  },
+  "best_checkpoint_mode": "budget",
+  "min_prune_budget": 4,
+  "pruning_plans_path": "/home/aiscuser/ghz_work/my_pure/my_pure/final/experiments/smoke/qwen3_8b_train_smoke/pruning_plans.json",
+  "eval_results_json": "/home/aiscuser/ghz_work/my_pure/my_pure/final/experiments/smoke/qwen3_8b_train_smoke/eval_results.json",
+  "eval_results_md": "/home/aiscuser/ghz_work/my_pure/my_pure/final/experiments/smoke/qwen3_8b_train_smoke/eval_results.md"
+}

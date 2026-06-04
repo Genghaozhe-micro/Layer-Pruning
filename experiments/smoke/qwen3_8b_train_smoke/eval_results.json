@@ -1,0 +1,118 @@
+{
+  "experiment": "smoke/qwen3_8b_train_smoke",
+  "model": "Qwen/Qwen3-8B",
+  "prune_counts": [
+    4
+  ],
+  "baseline": {
+    "cal_pool": {
+      "total_nll": 452.4375,
+      "total_tokens": 127,
+      "ppl": 35.25121511458854
+    },
+    "validation": {
+      "total_nll": 46.75,
+      "total_tokens": 8,
+      "ppl": 345.0709334152821
+    },
+    "test": {
+      "total_nll": 42.65625,
+      "total_tokens": 7,
+      "ppl": 443.0798490653855
+    },
+    "c4_validation": {
+      "total_nll": 154.5,
+      "total_tokens": 24,
+      "ppl": 624.8427387029609
+    }
+  },
+  "checkpoints": {
+    "1": {
+      "pruning_order": [
+        28,
+        13,
+        2,
+        21
+      ],
+      "steps": [
+        {
+          "layer": 28,
+          "cal_ppl": 50.1434,
+          "delta": 10.6296,
+          "reward": -2.3824
+        },
+        {
+          "layer": 13,
+          "cal_ppl": 54.7535,
+          "delta": 4.6101,
+          "reward": -0.8795
+        },
+        {
+          "layer": 2,
+          "cal_ppl": 55.4388,
+          "delta": 0.6854,
+          "reward": -0.1244
+        },
+        {
+          "layer": 21,
+          "cal_ppl": 56.6125,
+          "delta": 1.1737,
+          "reward": -0.2095
+        }
+      ],
+      "natural_stop_k": 4,
+      "eval": {
+        "4": {
+          "cal_pool": {
+            "total_nll": 468.3125,
+            "total_tokens": 127,
+            "ppl": 39.94485987582193,
+            "change": 4.693644761233394,
+            "layers": [
+              28,
+              13,
+              2,
+              21
+            ]
+          },
+          "validation": {
+            "total_nll": 47.5,
+            "total_tokens": 8,
+            "ppl": 378.98627852215554,
+            "change": 33.91534510687342,
+            "layers": [
+              28,
+              13,
+              2,
+              21
+            ]
+          },
+          "test": {
+            "total_nll": 41.78125,
+            "total_tokens": 7,
+            "ppl": 391.0165943978527,
+            "change": -52.06325466753276,
+            "layers": [
+              28,
+              13,
+              2,
+              21
+            ]
+          },
+          "c4_validation": {
+            "total_nll": 150.0,
+            "total_tokens": 24,
+            "ppl": 518.012824668342,
+            "change": -106.82991403461892,
+            "layers": [
+              28,
+              13,
+              2,
+              21
+            ]
+          }
+        }
+      }
+    }
+  }
+}
