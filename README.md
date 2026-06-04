@@ -1,15 +1,15 @@
 # V5: DQN 求解 LLM 层剪枝 MDP
 
-本目录是把 LLM 层剪枝建模为 MDP，并用 Double Dueling DQN 学习剪枝顺序的自包含实验代码。核心训练、评测入口和项目内依赖都放在 `final` 目录下；代码不会导入父目录中的项目模块。
+本代码是把 LLM 层剪枝建模为 MDP，并用 Double Dueling DQN 学习剪枝顺序的实验代码。包括核心训练、评测入口和项目内依赖。
 
-## 核心文件
+## 文件
 
 | 文件 | 作用 |
 | --- | --- |
 | `train_dqn.py` | 主训练入口。多 GPU worker 采集 episode，主进程更新 DQN，并在训练结束后自动评测。 |
 | `environment.py` | `LayerEnv`，定义层剪枝 MDP：状态、动作 mask、stop 动作、PPL 奖励和 episode 终止条件。 |
 | `dqn_agent.py` | `DQNAgent`、Dueling/Transformer Q 网络、Replay Buffer、Double DQN 更新逻辑。 |
-| `evaluation_pipeline.py` | 训练和独立评测共用的评测实现：加载数据、rollout 剪枝顺序、分布式 PPL 评测、写报告。 |
+| `evaluation_pipeline.py` | 评测实现：加载数据、rollout 剪枝顺序、分布式 PPL 评测、记录结果。 |
 | `eval_experiment.py` | 推荐的独立评测入口。自动读取实验目录 `config.json`，支持 single-budget 和 multi-budget。 |
 | `eval_sequence.py` | 给定手写或外部方法剪枝序列，评估不同 prefix 的 PPL。 |
 | `llm_pruner/` | 本目录自带的最小本地依赖，只包含数据加载和 LLM wrapper。 |
@@ -32,8 +32,8 @@
 全局 4 维 meta 特征：
 
 - 剪枝进度 `total_pruned / max_prune_limit`
-- 当前 PPL 归一化值
-- 相邻 step 的 PPL 变化
+- 当前 PPL 值
+- 上一个 step 的 PPL 变化
 - budget 占总层数比例
 
 动作空间为 `0..num_layers-1` 加一个 stop 动作。层动作表示剪掉对应层，stop 动作表示结束 episode。默认保护第 `0,1` 层；受保护层、已剪层会被 action mask 禁用。
@@ -98,7 +98,7 @@ python train_dqn.py \
 | `--cal-source` | `bookcorpus` | 校准样本来源：`bookcorpus` 或 `wikitext2`。 |
 | `--cal-pool-size` | `128` | 用于 episode 采样的校准池大小。 |
 | `--num-cal` | `8` | 每个 episode 使用的校准样本数。 |
-| `--alpha` | `10.0` | PPL log-ratio 奖励缩放。 |
+| `--alpha` | `10.0` | reward 中的奖励缩放超参。 |
 | `--ppl-ratio-threshold` | `2.0` | 当前 PPL 相对上一步增长超过 `1 + threshold` 时终止 episode。设为 `0` 可关闭。 |
 | `--q-arch` | `mlp` | Q 网络结构：`mlp` 或 `transformer`。 |
 | `--warmup-iters` | `100` | 只采集 replay buffer、不更新 DQN 的迭代数。 |
